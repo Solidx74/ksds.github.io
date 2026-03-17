@@ -1,0 +1,415 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <title>KS Data Science Portfolio Website</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+    <style>
+        :root {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --accent: #10b981;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --glass: rgba(15, 23, 42, 0.8);
+            /* Refined easing for professional feel */
+            --ease-pro: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg-body);
+            color: var(--text-primary);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* --- UI Components --- */
+        header#header {
+            background: transparent;
+            padding: 1.5rem 8%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s var(--ease-pro);
+            border-bottom: 1px solid transparent;
+        }
+
+        /* Class added via JS on scroll */
+        header#header.scrolled {
+            background: var(--glass);
+            padding: 1rem 8%;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            margin: 0;
+        }
+
+        nav a {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        section {
+            padding: 140px 10%;
+        }
+
+        /* --- Hero --- */
+        #intro {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 50% 50%, #1e293b 0%, #0f172a 100%);
+        }
+
+        .hero-text h2 {
+            font-size: 4rem;
+            margin: 0;
+            background: linear-gradient(to right, #f8fafc, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            /* Entrance animation */
+            animation: heroFade 1s var(--ease-pro) forwards;
+        }
+
+        @keyframes heroFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Skill Chips --- */
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .skill-chip {
+            background: rgba(16, 185, 129, 0.05);
+            color: var(--accent);
+            border: 1px solid rgba(16, 185, 129, 0.1);
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s var(--ease-pro);
+        }
+
+        .skill-chip:hover {
+            background: rgba(16, 185, 129, 0.2);
+            transform: translateY(-3px);
+            border-color: var(--accent);
+        }
+
+        /* --- Project Cards --- */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.5s var(--ease-pro);
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        /* Active state for reveal animation */
+        .project-card.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .tech-tag {
+            font-size: 0.75rem;
+            color: var(--accent);
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-right: 15px;
+        }
+
+        .project-card a {
+            text-decoration: none;
+            color: var(--accent);
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card a:hover {
+            opacity: 0.8;
+        }
+
+        /* --- Form Styling --- */
+        .contact-box {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 16px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            transition: border-color 0.3s var(--ease-pro);
+        }
+
+        input:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #0f172a;
+            padding: 14px 32px;
+            border-radius: 8px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-pro);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -5px rgba(16, 185, 129, 0.4);
+        }
+
+        /* --- Generic Reveal --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s var(--ease-pro);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h2 { font-size: 2.5rem; }
+            header#header { padding: 1rem 5%; }
+            nav { display: none; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header id="header">
+        <h1 style="font-size: 1.2rem; color: var(--accent); margin:0;">Kareeb Sadab's Portfolio</h1>
+        <nav>
+            <ul>
+                <li><a href="#intro">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#work">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="intro">
+        <div class="hero-text">
+            <h2>KS Data Science Portfolio</h2>
+
+            <p style="font-size:1.4rem; color: var(--text-secondary); max-width:700px; margin:auto;">
+                Focused on transforming raw data into meaningful insights and
+                predictive models.
+            </p>
+
+            <div class="skills-container">
+                <span class="skill-chip">Python</span>
+                <span class="skill-chip">Machine Learning</span>
+                <span class="skill-chip">SQL</span>
+                <span class="skill-chip">React</span>
+                <span class="skill-chip">Tableau</span>
+                <span class="skill-chip">NLP</span>
+            </div>
+
+            <div style="margin-top:40px;">
+                <a href="#work" class="btn-primary" style="text-decoration:none; margin-right:15px;">
+                    View Projects
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="reveal">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h3 style="text-transform: uppercase; font-size: 0.9rem; letter-spacing: 2px;">About me</h3>
+            <h2 style="font-size: 2.5rem; color: white;">Building the bridge between <span
+                    style="color: var(--accent);">Data & Logic.</span></h2>
+            <p style="color: var(--text-secondary); font-size: 1.1rem;">
+                I am Kareeb Sadab, Passionate about Machine Learning, analytics, and building solutions that solve real-world business
+                problems, currently pursuing Computer Science at CUET (Chittagong University of Engineering and Technology).
+                My work focuses on extracting actionable insights to help organizations make data-driven decisions.
+                From automated HR screening to financial risk assessment, I build end-to-end ML pipelines that scale.
+                
+            </p>
+        </div>
+    </section>
+
+    <section id="work">
+        <h3 class="reveal"
+            style="text-align: center; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 3rem;">Featured
+            Works</h3>
+        <div class="project-grid">
+            <div class="project-card">
+                <span class="tech-tag">Regression / ML</span>
+                <h3>Academic Performance AI</h3>
+                <p style="color: var(--text-secondary);">Predicting student outcomes via behavioral analytics and Random
+                    Forest pipelines.</p>
+                <a href="https://github.com/Solidx74/Academic-Performance-ML-Pipeline" target="_blank"><i
+                        class="fab fa-github"></i> Source Code</a>
+            </div>
+
+            <div class="project-card">
+                <span class="tech-tag">Classification / SMOTE</span>
+                <h3>Customer Churn System</h3>
+                <p style="color: var(--text-secondary);">Reducing attrition in telecom services using Gradient Boosting
+                    and class-imbalance handling.</p>
+                <a href="https://github.com/Solidx74/Customer-Churn-Analysis-and-Prediction-System" target="_blank"><i
+                        class="fab fa-github"></i> Source Code</a>
+            </div>
+
+            <div class="project-card">
+                <span class="tech-tag">NLP / TF-IDF</span>
+                <h3>AI Resume Analyzer</h3>
+                <p style="color: var(--text-secondary);">Automated screening for high-volume recruitment using text
+                    classification pipelines.</p>
+                <a href="https://github.com/Solidx74/Ai-Resume-Analyzer" target="_blank"><i class="fab fa-github"></i>
+                    Source Code</a>
+            </div>
+
+            <div class="project-card">
+                <span class="tech-tag">SVM / Decision Tree</span>
+                <h3>Loan Approval AI</h3>
+                <p style="color: var(--text-secondary);">High-accuracy credit risk assessment automating manual banking
+                    verification checks.</p>
+                <a href="https://github.com/Solidx74/Loan-Approval-Prediction-using-Machine-Learning" target="_blank"><i
+                        class="fab fa-github"></i> Source Code</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="reveal">
+        <div class="contact-box">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Let's Work <span
+                    style="color: var(--accent);">Together</span></h2>
+            <form>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <input type="text" placeholder="Name" required>
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <textarea placeholder="Tell me about your project..." rows="6" required></textarea>
+                <button type="submit" class="btn-primary" style="width: 100%;">Initialize Contact</button>
+            </form>
+        </div>
+    </section>
+
+    <footer style="padding:60px 0; text-align:center; border-top:1px solid rgba(255,255,255,0.05);">
+        <div style="margin-bottom:20px; font-size:1.6rem;">
+            <a href="https://github.com/Solidx74" target="_blank" style="margin:0 15px; color:#aaa; transition:0.3s;">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://x.com/Solidx74" target="_blank" style="margin: 0 15px; color:#aaa; transition:0.3s;"><i class="fab fa-twitter"></i></a>
+        </div>
+        <p style="color: var(--text-secondary); font-size:0.9rem;">
+            © 2026 Kareeb Sadab - Data Science Enthusiast
+        </p>
+    </footer>
+
+    <script>
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Professional Staggered Intersection Observer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    // If it's the project section, stagger the children
+                    if (entry.target.id === 'work') {
+                        const cards = entry.target.querySelectorAll('.project-card');
+                        cards.forEach((card, index) => {
+                            setTimeout(() => {
+                                card.classList.add('active');
+                            }, index * 150); // 150ms delay for smooth cascading
+                        });
+                    } else {
+                        entry.target.classList.add('active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe both the generic reveals and the specific project container
+        document.querySelectorAll('.reveal, #work').forEach(el => observer.observe(el));
+    </script>
+
+</body>
+</html>
