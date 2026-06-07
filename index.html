@@ -17,7 +17,6 @@
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --glass: rgba(15, 23, 42, 0.8);
-            /* Refined easing for professional feel */
             --ease-pro: cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -50,7 +49,6 @@
             border-bottom: 1px solid transparent;
         }
 
-        /* Class added via JS on scroll */
         header#header.scrolled {
             background: var(--glass);
             padding: 1rem 8%;
@@ -99,7 +97,6 @@
             background: linear-gradient(to right, #f8fafc, #10b981);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            /* Entrance animation */
             animation: heroFade 1s var(--ease-pro) forwards;
         }
 
@@ -152,7 +149,6 @@
             transform: translateY(30px);
         }
 
-        /* Active state for reveal animation */
         .project-card.active {
             opacity: 1;
             transform: translateY(0);
@@ -182,6 +178,125 @@
 
         .project-card a:hover {
             opacity: 0.8;
+        }
+
+        /* --- Agent Card --- */
+        .agents-grid {
+            grid-column: 1 / -1;
+        }
+
+        .panel {
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s var(--ease-pro);
+        }
+
+        .panel.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .agent-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            border-color: rgba(16, 185, 129, 0.4);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .panel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .pd-green {
+            background: var(--accent);
+            box-shadow: 0 0 6px rgba(16, 185, 129, 0.7);
+        }
+
+        .panel-content {
+            padding: 2rem 2.5rem 2.5rem;
+        }
+
+        .agent-card-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin: 0 0 0.75rem;
+        }
+
+        .agent-card-desc {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin: 0 0 1rem;
+            line-height: 1.7;
+            max-width: 640px;
+        }
+
+        .agent-card-tech {
+            font-size: 0.78rem;
+            color: var(--accent);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .agent-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .agent-action-badge {
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 7px 18px;
+            border-radius: 50px;
+            letter-spacing: 0.5px;
+            transition: all 0.3s var(--ease-pro);
+        }
+
+        .agent-action-badge.code {
+            background: rgba(16, 185, 129, 0.08);
+            color: var(--accent);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .agent-action-badge.code:hover {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .agent-action-badge.live {
+            background: var(--accent);
+            color: #0f172a;
+            border: 1px solid var(--accent);
+        }
+
+        .agent-action-badge.live:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px -4px rgba(16, 185, 129, 0.5);
         }
 
         /* --- Form Styling --- */
@@ -243,6 +358,7 @@
             .hero-text h2 { font-size: 2.5rem; }
             header#header { padding: 1rem 5%; }
             nav { display: none; }
+            .agent-actions { flex-direction: column; }
         }
     </style>
 </head>
@@ -297,7 +413,6 @@
                 problems, currently pursuing Computer Science at CUET (Chittagong University of Engineering and Technology).
                 My work focuses on extracting actionable insights to help organizations make data-driven decisions.
                 From automated HR screening to financial risk assessment, I build end-to-end ML pipelines that scale.
-                
             </p>
         </div>
     </section>
@@ -307,6 +422,7 @@
             style="text-align: center; text-transform: uppercase; letter-spacing: 2px; font-size: 0.9rem; margin-bottom: 3rem;">Featured
             Works</h3>
         <div class="project-grid">
+
             <div class="project-card">
                 <span class="tech-tag">Regression / ML</span>
                 <h3>Academic Performance AI</h3>
@@ -325,13 +441,27 @@
                         class="fab fa-github"></i> Source Code</a>
             </div>
 
-            <div class="project-card">
-                <span class="tech-tag">NLP / TF-IDF</span>
-                <h3>AI Resume Analyzer</h3>
-                <p style="color: var(--text-secondary);">Automated screening for high-volume recruitment using text
-                    classification pipelines.</p>
-                <a href="https://github.com/Solidx74/Ai-Resume-Analyzer" target="_blank"><i class="fab fa-github"></i>
-                    Source Code</a>
+            <!-- BetteResume-ai Agent Card (replaces old AI Resume Analyzer) -->
+            <div class="agents-grid">
+                <div class="panel agent-card">
+                    <div class="panel-header">
+                        <div class="panel-dot pd-green"></div>
+                        <span>Agent System // BetteResume-ai</span>
+                    </div>
+                    <div class="panel-content">
+                        <h4 class="agent-card-title">BetteResume-ai</h4>
+                        <p class="agent-card-desc">
+                            Full-stack AI-agent career platform analyzing skill gaps and instantly generating ATS-optimized LaTeX resumes.
+                        </p>
+                        <div class="agent-card-tech">Stack: ReactJS, FastAPI, MongoDB, Custom Agents</div>
+                        <div class="agent-actions">
+                            <a href="https://github.com/Solidx74/BetteResume-ai" target="_blank" rel="noopener noreferrer"
+                                class="agent-action-badge code">Code Link</a>
+                            <a href="https://bette-resume-ai.vercel.app" target="_blank" rel="noopener noreferrer"
+                                class="agent-action-badge live">Live Runtime</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="project-card">
@@ -342,6 +472,7 @@
                 <a href="https://github.com/Solidx74/Loan-Approval-Prediction-using-Machine-Learning" target="_blank"><i
                         class="fab fa-github"></i> Source Code</a>
             </div>
+
         </div>
     </section>
 
@@ -366,6 +497,7 @@
                 <i class="fab fa-github"></i>
             </a>
             <a href="https://x.com/Solidx74" target="_blank" style="margin: 0 15px; color:#aaa; transition:0.3s;"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/in/karib-sadab-43666a407/" target="_blank" style="margin: 0 15px; color:#aaa; transition:0.3s;"><i class="fab fa-linkedin"></i></a>
         </div>
         <p style="color: var(--text-secondary); font-size:0.9rem;">
             © 2026 Kareeb Sadab - Data Science Enthusiast
@@ -392,13 +524,13 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    // If it's the project section, stagger the children
                     if (entry.target.id === 'work') {
-                        const cards = entry.target.querySelectorAll('.project-card');
+                        // Include both regular project cards and the agent panel
+                        const cards = entry.target.querySelectorAll('.project-card, .panel.agent-card');
                         cards.forEach((card, index) => {
                             setTimeout(() => {
                                 card.classList.add('active');
-                            }, index * 150); // 150ms delay for smooth cascading
+                            }, index * 150);
                         });
                     } else {
                         entry.target.classList.add('active');
@@ -407,7 +539,6 @@
             });
         }, observerOptions);
 
-        // Observe both the generic reveals and the specific project container
         document.querySelectorAll('.reveal, #work').forEach(el => observer.observe(el));
     </script>
 
